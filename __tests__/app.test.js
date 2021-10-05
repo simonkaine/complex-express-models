@@ -10,8 +10,7 @@ describe('demo routes', () => {
 
   it('Should add/save a new Species', () => {
     const type = {
-      type: 'mammal',
-      typeId: null
+      type: 'mammal'
     };
     return request(app).post('/api/species').send(type)
       .then((res) => { expect(res.body).toEqual({
@@ -23,8 +22,7 @@ describe('demo routes', () => {
 
   it('Should GET all species', async () => {
     const species1 = {
-      type: 'mammal',
-      typeId: null
+      type: 'mammal'
     };
     await request(app).post('/api/species').send(species1);
     return request(app).get('/api/species')
@@ -35,6 +33,19 @@ describe('demo routes', () => {
         });
       });
   });
+
+  // it('Should add/save a new animal', () => {
+  //   const animal1 = {
+  //     name: 'deer',
+  //     nickname: 'sea deer'
+  //   };
+  //   return request(app).post('/api/animal').send(animal1)
+  //     .then((res) => { expect(res.body).toEqual({
+  //       ...animal1,
+  //       id: '1'
+  //     });
+  //     });
+  // });
 
   afterAll(() => {
     pool.end();
