@@ -10,6 +10,7 @@ describe('demo routes', () => {
 
   it('Should add/save a new Species', () => {
     const type = {
+      extinct: false,
       type: 'mammal'
     };
     return request(app).post('/api/species').send(type)
@@ -22,6 +23,7 @@ describe('demo routes', () => {
 
   it('Should GET all species', async () => {
     const species1 = {
+      extinct: false,
       type: 'mammal'
     };
     await request(app).post('/api/species').send(species1);
@@ -36,6 +38,7 @@ describe('demo routes', () => {
 
   it('Should add/save a new animal', async () => {
     const species1 = {
+      extinct: false,
       type: 'mammal'
     };
 
@@ -46,6 +49,30 @@ describe('demo routes', () => {
     };
     await request(app).post('/api/species').send(species1);
     return await request(app).post('/api/animals').send(animal1)
+    
+      .then((res) => { 
+        console.log(res.body);
+        expect(res.body).toEqual({
+          ...animal1,
+          id: '1'
+        });
+      });
+  });
+
+  it('Route to get an Animal by id', async () => {
+    const species1 = {
+      extinct: false,
+      type: 'mammal'
+    };
+
+    const animal1 = {
+      name: 'deer',
+      nickname: 'sea deer',
+      typeId: '1'
+    };
+    await request(app).post('/api/species').send(species1);
+    await request(app).post('/api/animals').send(animal1);
+    return request(app).get('/api/animals/1')
     
       .then((res) => { 
         console.log(res.body);
