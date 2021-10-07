@@ -83,6 +83,29 @@ describe('demo routes', () => {
       });
   });
 
+  it('Route to PATCH/update an Animal', async () => {
+    const species1 = {
+      extinct: false,
+      type: 'mammal'
+    };
+    const animal1 = {
+      name: 'deer',
+      nickname: 'sea deer',
+      typeId: '1'
+    };
+    await request(app).post('/api/species').send(species1);
+    await request(app).post('/api/animals').send(animal1);
+    return request(app).get('/api/animals/1')
+      .then(res => {
+        expect(res.body).toEqual({
+          id: '1',
+          name: 'MORTAL KOMBAT',
+          nickname: 'Sub Zero', 
+          typeId: '1'
+        });
+      });
+  });
+
   afterAll(() => {
     pool.end();
   });

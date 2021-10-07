@@ -15,3 +15,5 @@ CREATE TABLE animals (
     FOREIGN KEY(type_id) REFERENCES species(id)
 );
 
+
+
