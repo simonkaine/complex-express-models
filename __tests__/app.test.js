@@ -112,6 +112,20 @@ describe('demo routes', () => {
       });
   });
 
+  it('should DELETE a animal by id', async () => {
+    await request(app).post('/api/animals').send({           
+      id: '1',
+      name: 'MORTAL KOMBAT',
+      nickname: 'Sub Zero', 
+      typeId: '1'
+    });
+    return request(app)
+      .delete('/api/animals/1')
+      .then(res => {
+        expect(res.body).toEqual({});
+      });
+  }); 
+
   afterAll(() => {
     pool.end();
   });
