@@ -93,8 +93,14 @@ describe('demo routes', () => {
       nickname: 'sea deer',
       typeId: '1'
     };
+    const animal2 = {
+      name: 'MORTAL KOMBAT',
+      nickname: 'Sub Zero', 
+      typeId: '1'
+    };
     await request(app).post('/api/species').send(species1);
     await request(app).post('/api/animals').send(animal1);
+    await request(app).patch('/api/animals/1').send(animal2);
     return request(app).get('/api/animals/1')
       .then(res => {
         expect(res.body).toEqual({
