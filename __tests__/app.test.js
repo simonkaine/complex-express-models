@@ -129,8 +129,12 @@ describe('demo routes', () => {
   });
 
   it('should DELETE a animal by id', async () => {
+
+    await request(app).post('/api/species').send({
+      extinct: false,
+      type: 'mammal'
+    });
     await request(app).post('/api/animals').send({           
-      id: '1',
       name: 'MORTAL KOMBAT',
       nickname: 'Sub Zero', 
       typeId: '1'
@@ -151,12 +155,13 @@ describe('demo routes', () => {
     await request(app).post('/api/animals').send(animal1);
     await request(app).post('/api/animals').send(animal2);
     await request(app).post('/api/animals').send(animal3);
-    return request(app).get('/api/species')
+
+    return request(app).get('/api/animals')
       .then((res) => {
         expect(res.body).toEqual([
-          { ...animal1, typeId: '1' }, 
-          { ...animal2, typeId: '1' }, 
-          { ...animal3, typeId: '1' }
+          { ...animal1, type: 'mammal', typeId: '1' }, 
+          { ...animal2, type: 'mammal', typeId: '1' }, 
+          { ...animal3, type: 'mammal', typeId: '1' }
         ]);
       });
   });
