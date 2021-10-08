@@ -153,12 +153,11 @@ describe('demo routes', () => {
     await request(app).post('/api/animals').send(animal3);
     return request(app).get('/api/species')
       .then((res) => {
-        expect(res.body).toEqual({
-          ...animal1,
-          ...animal2,
-          ...animal3,
-          typeId: '1' 
-        });
+        expect(res.body).toEqual([
+          { ...animal1, typeId: '1' }, 
+          { ...animal2, typeId: '1' }, 
+          { ...animal3, typeId: '1' }
+        ]);
       });
   });
 
