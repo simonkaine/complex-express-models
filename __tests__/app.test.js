@@ -8,6 +8,22 @@ describe('demo routes', () => {
     return setup(pool);
   });
 
+  const animal1 = {
+    name: 'deer',
+    nickname: 'sea deer',
+    typeId: '1'
+  };
+  const animal2 = {
+    name: 'elk',
+    nickname: 'Giant deer',
+    typeId: '1'
+  };
+  const animal3 = {
+    name: 'moose',
+    nickname: 'BIGGER MEANER elk',
+    typeId: '1'
+  };
+
   it('Should add/save a new Species', () => {
     const type = {
       extinct: false,
@@ -102,7 +118,7 @@ describe('demo routes', () => {
     await request(app).post('/api/animals').send(animal1);
     await request(app).patch('/api/animals/1').send(animal2);
     return request(app).get('/api/animals/1')
-      .then(res => {
+      .then(res => { 
         expect(res.body).toEqual({
           id: '1',
           name: 'MORTAL KOMBAT',
@@ -125,6 +141,26 @@ describe('demo routes', () => {
         expect(res.body).toEqual({});
       });
   }); 
+
+  it('Should GET all Animals and include their Species', async () => {
+    const species1 = {
+      extinct: false,
+      type: 'mammal'
+    };
+    await request(app).post('/api/species').send(species1);
+    await request(app).post('/api/animals').send(animal1);
+    await request(app).post('/api/animals').send(animal2);
+    await request(app).post('/api/animals').send(animal3);
+    return request(app).get('/api/species')
+      .then((res) => {
+        expect(res.body).toEqual({
+          ...animal1,
+          ...animal2,
+          ...animal3,
+          typeId: '1' 
+        });
+      });
+  });
 
   afterAll(() => {
     pool.end();
