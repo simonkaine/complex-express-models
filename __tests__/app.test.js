@@ -67,7 +67,7 @@ describe('demo routes', () => {
     return await request(app).post('/api/animals').send(animal1)
     
       .then((res) => { 
-        console.log(res.body);
+       
         expect(res.body).toEqual({
           ...animal1,
           id: '1'
@@ -91,7 +91,6 @@ describe('demo routes', () => {
     return request(app).get('/api/animals/1')
     
       .then((res) => { 
-        console.log(res.body);
         expect(res.body).toEqual({
           ...animal1,
           id: '1'
@@ -147,7 +146,7 @@ describe('demo routes', () => {
   }); 
 
   it('Should GET all Animals and include their Species', async () => {
-    const species1 = {
+    const species1 = { 
       extinct: false,
       type: 'mammal'
     };
@@ -162,6 +161,25 @@ describe('demo routes', () => {
           { ...animal1, type: 'mammal', typeId: '1' }, 
           { ...animal2, type: 'mammal', typeId: '1' }, 
           { ...animal3, type: 'mammal', typeId: '1' }
+        ]);
+      });
+  });
+
+  //Route to get a count of Animals by Species (2 points)
+  it('Should get a count of Animals by Species', async () => {
+    const species1 = { 
+      extinct: false,
+      type: 'mammal'
+    };
+    await request(app).post('/api/species').send(species1);
+    await request(app).post('/api/animals').send(animal1);
+    await request(app).post('/api/animals').send(animal2);
+    await request(app).post('/api/animals').send(animal3);
+
+    return request(app).get('/api/animals/count')// species or animals?
+      .then((res) => {
+        expect(res.body).toEqual([
+          { type: 'mammal', count: '3' }
         ]);
       });
   });
