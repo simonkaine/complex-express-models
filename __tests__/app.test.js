@@ -183,25 +183,26 @@ describe('demo routes', () => {
       });
   });
  
-  // 1. send/post up species
-  // 2. send patch update to specific id - just one tho?
-  // 3. get a d expect that update 
   it('PATCH Route to set a Species to extinct (true or false)', async () => {
     const species1 = { 
       extinct: false,
       type: 'mammal'
     };
     await request(app).post('/api/species').send(species1);
-    await request(app).patch('/api/species/1'); // make patch 
-    return request(app).get('/api/species/1') // make get by id
+    await request(app).patch('/api/species/1').send({  
+      id: '1',
+      extinct: true,
+      type: 'mammal' 
+    }); 
+    return request(app).get('/api/species/1') 
       .then((res) => {
-        expect(res.body).toEqual([
+        expect(res.body).toEqual(
           { 
             id: '1',
             extinct: true,
             type: 'mammal' 
           }
-        ]);
+        );
       });
   });
 
