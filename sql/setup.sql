@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS animals;
 CREATE TABLE species (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     extinct BOOLEAN,
-    type TEXT NOT NULL
+    type TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE animals (
@@ -14,4 +14,6 @@ CREATE TABLE animals (
     type_id BIGINT NOT NULL,
     FOREIGN KEY(type_id) REFERENCES species(id)
 );
+
+
 
