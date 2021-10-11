@@ -165,7 +165,6 @@ describe('demo routes', () => {
       });
   });
 
-  //Route to get a count of Animals by Species (2 points)
   it('Should get a count of Animals by Species', async () => {
     const species1 = { 
       extinct: false,
@@ -180,6 +179,28 @@ describe('demo routes', () => {
       .then((res) => {
         expect(res.body).toEqual([
           { type: 'mammal', count: '3' }
+        ]);
+      });
+  });
+ 
+  // 1. send/post up species
+  // 2. send patch update to specific id - just one tho?
+  // 3. get a d expect that update 
+  it('PATCH Route to set a Species to extinct (true or false)', async () => {
+    const species1 = { 
+      extinct: false,
+      type: 'mammal'
+    };
+    await request(app).post('/api/species').send(species1);
+    await request(app).patch('/api/species/1'); // make patch 
+    return request(app).get('/api/species/1') // make get by id
+      .then((res) => {
+        expect(res.body).toEqual([
+          { 
+            id: '1',
+            extinct: true,
+            type: 'mammal' 
+          }
         ]);
       });
   });
